@@ -1,33 +1,7 @@
-variable "vpc_id" {
-  description = "VPC id where the security group will be created"
-  type        = string
-}
-
-variable "prefix" {
-  description = "Resource name prefix"
-  type        = string
-}
-
+variable "prefix" {}
 variable "tags" {
-  description = "Common tags map"
-  type        = map(string)
-  default     = {}
+  type = map(string)
 }
-
-variable "allow_http" {
-  description = "Allow HTTP (port 80) from 0.0.0.0/0"
-  type        = bool
-  default     = true
-}
-
-variable "allow_https" {
-  description = "Allow HTTPS (port 443) from 0.0.0.0/0"
-  type        = bool
-  default     = true
-}
-
-variable "allow_ssh" {
-  description = "Allow SSH (port 22) from specified CIDR. Leave empty to disable."
-  type        = string
-  default     = ""
-}
+variable "vpc_id" {}
+variable "allow_http" {}
+variable "allow_ssh" {}
