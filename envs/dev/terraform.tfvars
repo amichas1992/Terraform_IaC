@@ -1,5 +1,8 @@
-prefix = "dev"
+prefix   = "dev"
+key_name = "demo-key"
+
 tags = {
-  Project = "TF"
-  Env     = "dev"
+  Project     = "TF-IaC"
+  Environment = "dev"
+  ManagedBy   = "Terraform"
 }
