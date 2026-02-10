@@ -1,18 +1,15 @@
 variable "prefix" {
-  type    = string
-  default = "dev"
+  type        = string
+  description = "Project prefix for naming resources"
+  default     = "dev"
 }
 
 variable "tags" {
-  type = map(string)
-  default = {
-    Project = "TF-IaC"
-    Env     = "dev"
-  }
+  type        = map(string)
+  description = "Common resource tags"
 }
 
 variable "key_name" {
   type        = string
-  description = "EC2 Key pair"
-  default     = "demo-key"
+  description = "Name of the existing AWS Key Pair"
 }

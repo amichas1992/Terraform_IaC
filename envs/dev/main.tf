@@ -16,15 +16,15 @@ module "security" {
 }
 
 module "ec2" {
-  source             = "../../modules/ec2"
-  instance_type      = "t3.micro"
-  prefix             = var.prefix
-  tags               = var.tags
+  source               = "../../modules/ec2"
+  instance_type        = "t3.micro"
+  prefix               = var.prefix
+  tags                 = var.tags
   iam_instance_profile = module.iam.instance_profile_name
-  subnet_id          = module.vpc.public_subnet_ids[0]
-  security_group_ids = [module.security.security_group_id]
-  key_name           = var.key_name
-  userdata           = file("../../modules/ec2/userdata.sh")
+  subnet_id            = module.vpc.public_subnet_ids[0]
+  security_group_ids   = [module.security.security_group_id]
+  key_name             = var.key_name
+  userdata             = file("../../modules/ec2/userdata.sh")
 }
 
 module "iam" {
