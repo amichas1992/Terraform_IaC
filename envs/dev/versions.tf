@@ -17,9 +17,9 @@ terraform {
   # --- Tell Terraform to talk to S3 ---
   backend "s3" {
     bucket         = "terraform-state-portfolio-amichas1992"
-    key            = "dev/terraform.tfstate"                 # Path inside the bucket
+    key            = "dev/terraform.tfstate" # Path inside the bucket
     region         = "eu-central-1"
-    dynamodb_table = "terraform-locks"                       # table name
+    dynamodb_table = "terraform-locks" # table name
     encrypt        = true
   }
 

@@ -4,15 +4,10 @@ A modular, scalable Infrastructure as Code (IaC) project that provisions a secur
 🏗️ Architecture
 
 The project deploys a 3-tier-style network architecture:
-
     VPC: Custom VPC with DNS hostnames enabled.
-
     Networking: Public subnets with auto-assigned public IPs and Route Tables connected to an Internet Gateway.
-
     Compute: Amazon Linux 2 EC2 instance bootstrapped with Nginx via User Data.
-
     Security: * Security Groups locked down to specific source IPs (SSH) and open web traffic (HTTP).
-
         IAM Role: Instance attached to AmazonSSMManagedInstanceCore for secure, keyless management via AWS Systems Manager.
 
 Decision	Why I chose this?	Trade-off / Alternative
