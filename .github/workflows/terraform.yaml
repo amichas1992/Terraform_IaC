@@ -1,0 +1,66 @@
+name: "Terraform CI/CD"
+
+# WHEN to run this pipeline
+on:
+  push:
+    branches:
+      - main  # Run Apply only when code is pushed/merged to main
+  pull_request:
+    branches:
+      - main  # Run Plan when a PR is opened against main
+
+permissions:
+  id-token: write # Required for OIDC authentication
+  contents: read  # Required to read the repo code
+
+env:
+  # Verify your Terraform version matches what you use locally
+  TF_VERSION: "1.5.0" 
+
+jobs:
+  terraform:
+    name: "Terraform"
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      # 1. Checkout the code
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 2. Log in to AWS using OIDC (No Keys!)
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # 3. Install Terraform
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+
+      # 4. Initialize Terraform (Download providers/backend)
+      - name: Terraform Init
+        run: terraform init
+
+      # 5. Format Check (Fail if code is messy)
+      - name: Terraform Format
+        run: terraform fmt -check
+
+      # 6. Validate Syntax
+      - name: Terraform Validate
+        run: terraform validate
+
+      # 7. Terraform Plan (Runs on Pull Requests only)
+      - name: Terraform Plan
+        if: github.event_name == 'pull_request'
+        run: terraform plan -input=false
+
+      # 8. Terraform Apply (Runs on Main Branch Push only)
+      - name: Terraform Apply
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        run: terraform apply -auto-approve -input=false
