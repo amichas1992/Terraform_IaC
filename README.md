@@ -12,10 +12,8 @@ Network: Custom VPC with a Public Subnet, Internet Gateway, and custom Route Tab
 Compute: Amazon Linux 2 EC2 instance, bootstrapped with Nginx via User Data.
 
 Security:
-
-    IAM Role: The instance uses an Instance Profile with the AmazonSSMManagedInstanceCore policy.
-
-    Access: Management is performed via AWS Systems Manager (Session Manager), removing the need to open SSH (Port 22) to the public internet.
+IAM Role: The instance uses an Instance Profile with the AmazonSSMManagedInstanceCore policy.
+Access: Management is performed via AWS Systems Manager (Session Manager), removing the need to open SSH (Port 22) to the public internet.
 
 CI/CD: GitHub Actions pipeline authenticates via OIDC (OpenID Connect), eliminating the need for long-lived AWS Access Keys.
 
@@ -31,18 +29,18 @@ Decision,Why I chose this?,Trade-off / Alternative
 
 📂 Project Structure
 
-.
-├── bootstrap/             # Run this FIRST to set up S3 Backend & DynamoDB
-├── envs/
-│   └── dev/               # The "Dev" environment (Root Module)
-│       ├── main.tf        # Orchestrates the modules
-│       ├── terraform.tfvars # Configuration values
-│       └── backend.tf     # Remote state configuration
-└── modules/               # Reusable Logic
-    ├── vpc/               # Networking (Subnets, IGW, Route Tables)
-    ├── ec2/               # Compute & UserData scripts
-    ├── security/          # Firewalls (Security Groups)
-    └── iam/               # Identity & Permissions
+    .
+    ├── bootstrap/             # Run this FIRST to set up S3 Backend & DynamoDB
+    ├── envs/
+    │   └── dev/               # The "Dev" environment (Root Module)
+    │       ├── main.tf        # Orchestrates the modules
+    │       ├── terraform.tfvars # Configuration values
+    │       └── backend.tf     # Remote state configuration
+    └── modules/               # Reusable Logic
+        ├── vpc/               # Networking (Subnets, IGW, Route Tables)
+        ├── ec2/               # Compute & UserData scripts
+        ├── security/          # Firewalls (Security Groups)
+        └── iam/               # Identity & Permissions
 
 
 🚀 How to Deploy
@@ -71,18 +69,15 @@ Bash: aws ssm start-session --target <instance_id>
 
 🤖 CI/CD Pipeline
 The project includes a GitHub Actions workflow (main.yml) that runs on every Push or Pull Request.
-
-    Format & Validate: Checks Terraform code style (fmt) and syntax validity.
-
-    Plan: Runs terraform plan to visualize changes before applying.
-
-    Apply: (Main branch only) Automatically applies the infrastructure changes using OIDC credentials.
+Format & Validate: Checks Terraform code style (fmt) and syntax validity.
+Plan: Runs terraform plan to visualize changes before applying.
+Apply: (Main branch only) Automatically applies the infrastructure changes using OIDC credentials.
 
 
 🔒 Security Highlights
-    No Hardcoded Secrets: No AWS keys are committed to the repo.
-    State Encryption: The S3 Backend is encrypted at rest.
-    Least Privilege: SSH access is restricted via variables; the EC2 runs with a minimal IAM profile.
+No Hardcoded Secrets: No AWS keys are committed to the repo.
+State Encryption: The S3 Backend is encrypted at rest.
+Least Privilege: SSH access is restricted via variables; the EC2 runs with a minimal IAM profile.
 
 📝 Author
 Thanos Michas - Cloud Engineer & Terraform Enthusiast.
