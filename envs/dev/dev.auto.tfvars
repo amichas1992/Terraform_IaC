@@ -5,5 +5,4 @@ tags = {
   Project     = "TF-IaC"
   Environment = "dev"
   ManagedBy   = "Terraform"
-  Interview   = "Live Demo"
-}
+  }
