@@ -35,5 +35,5 @@ variable "allow_ssh" {
 variable "ssh_source_cidr" {
   description = "CIDR block allowed to SSH. Use specific IP for security (e.g. your_ip/32)."
   type        = list(string)
-  default     = ["0.0.0.0/0"] # Οpen for now, change to your_ip for ssh lock
+  default     = ["0.0.0.0/0"] # Open for now, change to your_ip for ssh lock
   }
